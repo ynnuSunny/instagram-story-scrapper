@@ -34,6 +34,8 @@ class InstagramBot(BaseBot):
     
     XPATH_NOTIFY_NOT_NOW = "//button[@class='_a9-- _ap36 _a9_1']"
     
+    # i can do those xpath more optimize if i got enough time
+
     XPATH_START_STORY = '/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[2]/section[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/ul[1]/li[3]/div[1]/button[1]' 
     XPATH_NEXT_STORY = "/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/section[1]/div[1]/div[1]/div[5]/section[1]/div[1]/button[@aria-label='Next']"
     XPATH_USER_NAME_STORY = "//div[@class='_ac0o']/div[2]//a" 
@@ -74,8 +76,12 @@ class InstagramBot(BaseBot):
         
         
     def get_instagram_story_user():
+        # i can do this also if i get time.
         pass
-    
+    def give_like_and_comment():
+        # i can do this also if i get enough time.
+        pass
+
     def get_instagram_story_friends(self):
         
         for _ in range(5):
