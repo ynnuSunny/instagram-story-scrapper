@@ -42,6 +42,8 @@ class InstagramBot(BaseBot):
     XPATH_CONTENT_IMAGE_STORY = '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/section/div[1]/div/div[5]/section/div/div[1]/div/div/img'                           
     XPATH_CONTENT_VIDEO_STORY = '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/section/div[1]/div/div[5]/section/div/div[1]/div/div/div/div/div/div/video'
     XPATH_CONTENT_DATE_TIME = '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/section/div[1]/div/div[5]/section/div/header/div[2]/div[1]/div/div[2]/div/div/time'
+    
+    XPATH_NOT_SAVE_USER_INFO = '/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div[2]/section/main/div/div/div/div'
 
     def __init__(
         self, parameters, *args, **kwargs
@@ -83,7 +85,17 @@ class InstagramBot(BaseBot):
         pass
 
     def get_instagram_story_friends(self):
+
+        time.sleep(2)
         
+        # set not save user information
+        not_save_user_info = self.driver.find_elements(By.XPATH, self.XPATH_NOT_SAVE_USER_INFO)
+        if(len(not_save_user_info)!=0):
+            not_save_user_info[0].click()
+       
+        time.sleep(2)
+        
+        # set not save notification
         for _ in range(5):
             notify_not_now = self.driver.find_elements(By.XPATH, self.XPATH_NOTIFY_NOT_NOW)
             if(len(notify_not_now)==0):
@@ -100,7 +112,7 @@ class InstagramBot(BaseBot):
 
         # clink in the first story
         start_story_is_found = False
-        for _ in range(20):
+        for _ in range(5):
             start_story = self.driver.find_elements(By.XPATH, self.XPATH_START_STORY)
             if(len(start_story)==0):
                 print("There is no strory!")
@@ -111,8 +123,7 @@ class InstagramBot(BaseBot):
                 start_story_is_found = True
                 time.sleep(1)
                 break
-                
-                
+                       
         
         if start_story_is_found==False:
             return
@@ -123,24 +134,29 @@ class InstagramBot(BaseBot):
         # clink button untill last story
         while(True):
             data = {}
-            
+            is_video = False
             user_name = self.driver.find_elements(By.XPATH, self.XPATH_USER_NAME_STORY)
             if(len(user_name)!=0):
                 data['user_name'] = user_name[0].text
+            
                 
             time.sleep(self.TIME_INTERVAL_BASE)
 
             try:       
                 content_link = self.driver.find_element(By.XPATH,self.XPATH_CONTENT_VIDEO_STORY).get_attribute("src")
+                content_link = content_link.replace('blob:', '')
+                is_video = True
             except NoSuchElementException:
                 time.sleep(self.TIME_INTERVAL_BASE)
                 content_link = self.driver.find_element(By.XPATH,self.XPATH_CONTENT_IMAGE_STORY).get_attribute("src")
-                is_video = False
+                
             data['content'] = content_link
 
             date_time = self.driver.find_elements(By.XPATH, self.XPATH_CONTENT_DATE_TIME)
             if len(date_time)!=0: date_time = date_time[0].get_attribute('datetime')
-            data['post-date'] = date_time
+            data['post_date'] = date_time
+            data['is_video'] = is_video
+
 
             self.friends_story_data.append(data)
 
