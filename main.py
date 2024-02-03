@@ -12,7 +12,6 @@ parameters = {
             # "INDEVIDUAL_STORY": True,
             # "USER_ID": "yoga_healers",
 
-
         }
 
 instagram_bot = InstagramBot(

@@ -155,15 +155,11 @@ class InstagramBot(BaseBot):
                 break
         
 
-    def get_pages_preprocess(self):
-        entry_keyword = ""
-        _entry_keyword = self.searched_keyword.replace("/", "-")
-        self.entry_keyword = entry_keyword = urllib.parse.quote(entry_keyword)
-        self.URL = self.ROOT_URL
+    
 
     def get_pages(self, service):
         self.service = service
-        # self.get_pages_preprocess()
+
         print(self.parameters)
         self.user_name = self.parameters.get("USER-NAME")
         self.password = self.parameters.get("PASSWORD")
