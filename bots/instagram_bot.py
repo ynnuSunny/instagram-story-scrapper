@@ -69,12 +69,13 @@ class InstagramBot(BaseBot):
  
     def fetch_instagram(self,URL):
         self._get(URL)
-        self.login("mx_lua2","NGQ+nHA?8$9;4rM")
+        self.login(self.user_name,self.password)
         time.sleep(self.TIME_INTERVAL_BASE)
         
         
     def get_instagram_story_user():
         pass
+    
     def get_instagram_story_friends(self):
         
         for _ in range(5):
@@ -158,6 +159,8 @@ class InstagramBot(BaseBot):
         self.service = service
         # self.get_pages_preprocess()
         print(self.parameters)
+        self.user_name = self.parameters.get("USER-NAME")
+        self.password = self.parameters.get("PASSWORD")
         # print(self.URL)
         if(self.parameters.get('FRIENDS_STORY')):
             print("Fetching frines story")
@@ -169,6 +172,6 @@ class InstagramBot(BaseBot):
         #     self.fetch_instagram(url)
         #     self.get_instagram_story_user()
 
-        print(self.friends_story_data)
-
+        
+        return self.friends_story_data
 
